@@ -1,4 +1,4 @@
-import { type Signal, component$, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik"
+import { type Signal, component$, useSignal, useStylesScoped$ } from "@builder.io/qwik"
 
 export default component$(({ idx, expansionSig, item }: {
   idx: number,
@@ -12,14 +12,14 @@ export default component$(({ idx, expansionSig, item }: {
   const contentSig = useSignal<HTMLDivElement>()
 
   useStylesScoped$(writeAccordionStyle())
-  useVisibleTask$(function detectContentHeight() {
-    if (!contentSig.value) return
+  // useVisibleTask$(function detectContentHeight() {
+  //   if (!contentSig.value) return
 
-    const child = contentSig.value.childNodes[0] as HTMLElement,
-          childHeight = child.getBoundingClientRect().height
+  //   const child = contentSig.value.childNodes[0] as HTMLElement,
+  //         childHeight = child.getBoundingClientRect().height
 
-    contentSig.value.style.setProperty("--content-height", `${Math.ceil(childHeight)}px`)
-  })
+  //   contentSig.value.style.setProperty("--content-height", `${Math.ceil(childHeight)}px`)
+  // })
 
   return (
     <div class="accordion">
