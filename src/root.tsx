@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useStyles$ } from '@builder.io/qwik'
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -6,11 +6,11 @@ import {
 } from '@builder.io/qwik-city'
 import { RouterHead } from './components/router-head/router-head'
 
-import './fonts.css'
 import './init.css'
 import './global.css'
 
 export default component$(() => {
+  useStyles$('./font.css')
   /**
    * The root of a QwikCity site always start with the <QwikCityProvider> component,
    * immediately followed by the document's <head> and <body>.
