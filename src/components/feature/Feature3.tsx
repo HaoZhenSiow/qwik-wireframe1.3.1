@@ -39,7 +39,6 @@ export default component$(() => {
       .visual {
         width: 60%;
         margin-left: 3em;
-        flex-shrink: 0;
       }
 
       section.left { flex-direction: row-reverse; }
@@ -51,10 +50,9 @@ export default component$(() => {
     }
   `)
 
-  const isVisualLeft = false
 
   return (
-    <section class={`fluid-section ${isVisualLeft ? 'left' : ''}`}>
+    <section class="fluid-section">
       <div>
         <h2>Crack the Code to<br /> Transparent Renovation Pricing</h2>
         <p>Hidden costs and unexpected expenses can turn your dream home project into a financial nightmare. But worry not! We&apos;ve introduced E Build Assist, a revolutionary quotation system that provides you:</p>
