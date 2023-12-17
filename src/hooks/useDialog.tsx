@@ -1,4 +1,5 @@
-import { $, useSignal } from "@builder.io/qwik"
+import { $, useSignal, useVisibleTask$ } from "@builder.io/qwik"
+import { isServer } from "@builder.io/qwik/build"
 
 export default function useDialog() {
   const dialogRef = useSignal<HTMLDialogElement>()
@@ -9,28 +10,29 @@ export default function useDialog() {
   })
 
   // eslint-disable-next-line qwik/no-use-visible-task
-  // useVisibleTask$(({ track, cleanup }) => {
-  //   track(() => showDialogSig.value)
-  //   if (!showDialogSig.value) return
+  useVisibleTask$(({ track, cleanup }) => {
+    track(() => showDialogSig.value)
+    if (isServer) return
+    if (!showDialogSig.value) return
 
-  //   const dialogElement = dialogRef.value as HTMLDialogElement
+    const dialogElement = dialogRef.value as HTMLDialogElement
 
-  //   const clickOutside = (e: MouseEvent) => {
-  //     const clickX = e.clientX,
-  //           clickY = e.clientY
+    const clickOutside = (e: MouseEvent) => {
+      const clickX = e.clientX,
+            clickY = e.clientY
 
-  //     const { left, top, right, bottom }: DOMRect = dialogElement.getBoundingClientRect()
+      const { left, top, right, bottom }: DOMRect = dialogElement.getBoundingClientRect()
 
-  //     if (clickX < left || clickX > right || clickY < top || clickY > bottom) {
-  //       showDialogSig.value = false
-  //     }
-  //   }
+      if (clickX < left || clickX > right || clickY < top || clickY > bottom) {
+        showDialogSig.value = false
+      }
+    }
 
-  //   dialogElement.showModal()
-  //   dialogElement.addEventListener('click', clickOutside)
+    dialogElement.showModal()
+    dialogElement.addEventListener('click', clickOutside)
 
-  //   cleanup(() => dialogElement.removeEventListener('click', clickOutside))
-  // })
+    cleanup(() => dialogElement.removeEventListener('click', clickOutside))
+  })
 
   return {
     dialogRef,
