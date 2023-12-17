@@ -7,6 +7,7 @@ import Feature3 from '~/components/feature/Feature3'
 import Portfolio1 from '~/components/portfolio/portfolio1/Portfolio1'
 import Testimonials1 from '~/components/testimonials/testimonial1/Testimonials1'
 import FoundersNote1 from '~/components/FoundersNote/FoundersNote1'
+import Form1 from '~/components/form/Form1/Form1'
 
 export default component$(() => {
   return (
@@ -18,6 +19,7 @@ export default component$(() => {
         <Feature2 />
         <Portfolio1 />
         <Testimonials1 />
+        <Form1 />
         <FoundersNote1 />
       </main>
     </>
