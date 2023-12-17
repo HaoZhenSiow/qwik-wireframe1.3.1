@@ -1,42 +1,25 @@
-import { $, useSignal, useVisibleTask$ } from "@builder.io/qwik"
-import { isServer } from "@builder.io/qwik/build"
+import { $, useSignal, useOnDocument } from "@builder.io/qwik"
 
 export default function useDialog() {
   const dialogRef = useSignal<HTMLDialogElement>()
-  const showDialogSig = useSignal(false)
 
   const showDialog = $(() => {
-    showDialogSig.value = true
+    dialogRef.value?.showModal()
   })
 
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(({ track, cleanup }) => {
-    track(() => showDialogSig.value)
-    if (isServer) return
-    if (!showDialogSig.value) return
-
+  useOnDocument('load', $(() => {
     const dialogElement = dialogRef.value as HTMLDialogElement
-
-    const clickOutside = (e: MouseEvent) => {
+    dialogElement.addEventListener('click', (e) => {
       const clickX = e.clientX,
             clickY = e.clientY
 
       const { left, top, right, bottom }: DOMRect = dialogElement.getBoundingClientRect()
 
       if (clickX < left || clickX > right || clickY < top || clickY > bottom) {
-        showDialogSig.value = false
+        dialogElement.close()
       }
-    }
+    })
+  }))
 
-    dialogElement.showModal()
-    dialogElement.addEventListener('click', clickOutside)
-
-    cleanup(() => dialogElement.removeEventListener('click', clickOutside))
-  })
-
-  return {
-    dialogRef,
-    isShown: showDialogSig.value,
-    showDialog,
-  }
+  return { dialogRef, showDialog }
 }

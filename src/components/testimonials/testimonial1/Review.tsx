@@ -1,5 +1,5 @@
 import { component$, useStylesScoped$ } from '@builder.io/qwik'
-import useDialog from '~/hooks/useDialog'
+import useDialog from '~/hooks/useDialog';
 
 export default component$(({ title, copy }: 
 { title: string; copy: string[]}) => {
@@ -80,7 +80,7 @@ export default component$(({ title, copy }:
     }
   `)
 
-  const { dialogRef, isShown, showDialog } = useDialog()
+  const { dialogRef, showDialog } = useDialog()
 
   return (
     <div class="review">
@@ -92,16 +92,16 @@ export default component$(({ title, copy }:
             <p key={idx}>{p}</p>
           ))}
         </div>
-        <button type="button" onClick$={() => showDialog()}>continue reading...</button>
+        <button type="button" onClick$={showDialog}>continue reading...</button>
       </div>
-      {isShown && <dialog ref={dialogRef}>
+      <dialog ref={dialogRef}>
         <div>
           <b>{title}</b>
           {copy.map((p, idx) => (
             <p key={idx}>{p}</p>
           ))}
         </div>
-      </dialog>}
+      </dialog>
     </div>
   )
 })
