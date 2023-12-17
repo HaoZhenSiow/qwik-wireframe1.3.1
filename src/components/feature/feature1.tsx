@@ -39,6 +39,7 @@ export default component$(() => {
       .visual {
         width: 60%;
         margin-left: 3em;
+        flex-shrink: 0;
       }
 
       section.left { flex-direction: row-reverse; }
