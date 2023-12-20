@@ -7,7 +7,7 @@ export default component$(() => {
     <section class="fluid-section" aria-label="contact form">
       <h2>Tell Us Your Story</h2>
       {/* <p>Design is about life and the way you experience them.</p> */}
-      <form action="">
+      <form action="" preventdefault:submit>
         <fieldset>
           <label for="name">
             <span>Hi,</span>
@@ -26,9 +26,9 @@ export default component$(() => {
             <span>possibly</span>
             <span>renovate</span>
             <span>my</span>
-            <input type="text" name="house-type" placeholder="house type*" required />
+            <input type="text" name="house-type" placeholder="house type*" list="house-type" required />
           </label>
-          {/* <datalist id="house-type">
+          <datalist id="house-type">
             <option value="2-room resale">2-room resale</option>
             <option value="3-room resale">3-room resale</option>
             <option value="4-room resale">4-room resale</option>
@@ -42,14 +42,14 @@ export default component$(() => {
             <option value="4-room condo">4-room condo</option>
             <option value="5-room condo">5-room condo</option>
             <option value="landed">landed</option>
-          </datalist> */}
+          </datalist>
           <label for="phone">
             <span>You</span>
             <span>can</span>
             <span>reach</span>
             <span>me</span>
             <span>at</span>
-            <input type="number" name="phone" placeholder="Phone*" required />
+            <input type="tel" name="phone" placeholder="Phone*" pattern="[0-9]{8}" required />
           </label>
           <button type="submit">
             Get my Quote
