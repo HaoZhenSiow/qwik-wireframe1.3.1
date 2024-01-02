@@ -60,8 +60,6 @@ export default component$(() => {
     })
   })
 
-  useOnWindow('scroll', $(() => windowScroll()))
-
   const windowScroll = $(function () {
     const timeline = timelineRef.value!
     const years = timeline.querySelectorAll('b')
@@ -74,6 +72,8 @@ export default component$(() => {
     contentDisplay.reset()
     contentDisplay[closestYear] = true
   })
+
+  useOnWindow('scroll', windowScroll)
 
   return (
     <section class="fluid-section">
