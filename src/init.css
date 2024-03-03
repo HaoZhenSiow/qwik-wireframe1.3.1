@@ -69,7 +69,12 @@ h1, h2, h3, h4, h5, h6 {
 * {
   box-sizing: border-box;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
   /* outline: red solid 1px; */
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -165,14 +170,14 @@ button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type
   cursor: pointer;
 }
 
-html:has(:modal) {
+html:has(:modal), html:has(.menu.active) {
   overflow: hidden;
-
+/* 
   @media (width >= 1000px) {
     padding-inline-end: 16px;
-  }
+  } */
 }
 
-html:has(:modal) nav {
+/* html:has(:modal) nav, html:has(.menu.active) nav {
   margin-inline-end: 16px;
-}
+} */

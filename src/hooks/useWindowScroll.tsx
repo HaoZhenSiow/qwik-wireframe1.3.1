@@ -1,13 +1,29 @@
-import { $, useOnWindow, useSignal } from "@builder.io/qwik"
+import { $, useOnWindow, useStore } from "@builder.io/qwik"
 
 export default function useWindowScroll() {
-  const scroll = useSignal(0)
+  const scrollInfo = useStore({
+    currentScrollTop: 0,
+    lastScrollTop: 0,
+    direction: '',
+    scrolled: false
+  })
 
   const handleWindowScroll = $(function () {
-    scroll.value = document.documentElement.scrollTop
+    scrollInfo.currentScrollTop = document.documentElement.scrollTop
+    if (scrollInfo.currentScrollTop > scrollInfo.lastScrollTop) {
+      scrollInfo.direction = 'scrolled-down'
+    } else {
+      scrollInfo.direction = 'scrolled-up'
+    }
+    scrollInfo.lastScrollTop = scrollInfo.currentScrollTop
+    if (scrollInfo.currentScrollTop > 0) {
+      scrollInfo.scrolled = true
+    } else {
+      scrollInfo.scrolled = false
+    }
   })
 
   useOnWindow('scroll', handleWindowScroll)
 
-  return scroll
+  return scrollInfo
 }

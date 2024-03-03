@@ -1,4 +1,4 @@
-import { type QRL } from "@builder.io/qwik"
+import { type QRL, $ } from "@builder.io/qwik"
 
 export default function Img({ src, width, height, sizes, alt, eager, onClick }: {
     src: string,
@@ -25,6 +25,6 @@ export default function Img({ src, width, height, sizes, alt, eager, onClick }: 
             height={height}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            onClick$={onClick ? () => onClick() : undefined} />
+            onClick$={onClick ? $(() => onClick()) : undefined} />
     )
 }

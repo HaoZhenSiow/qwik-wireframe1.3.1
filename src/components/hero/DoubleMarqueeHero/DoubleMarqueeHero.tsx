@@ -2,6 +2,7 @@ import { component$, useStylesScoped$ } from '@builder.io/qwik'
 import fluid from '~/lib/fluid'
 
 import ImageMarquee from './ImageMarquee'
+import Button1 from '~/components/button/Button1'
 
 const heroImages = ['1', '2', '3', '4', '5']
 
@@ -49,7 +50,7 @@ export default component$(() => {
       }
     }
 
-    button {
+    a {
       background-color: black;
       color: white;
       font-weight: bold;
@@ -59,6 +60,7 @@ export default component$(() => {
 
     small {
       margin-top: .3em;
+      text-wrap: nowrap;
     }
   `)
 
@@ -73,7 +75,7 @@ export default component$(() => {
         <p>
           The most reliable interior design firm in Singapore, backed by over X happy customers, where your dream home is delivered, not nightmares!
         </p>
-        <button type="button">Get my Quote Now</button>
+        <Button1 href="#contact-form">Get my Quote Now</Button1>
         <small>It's free, no consultation fee</small>
       </div>
     </header>

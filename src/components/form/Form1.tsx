@@ -4,7 +4,7 @@ import fluid from "~/lib/fluid";
 export default component$(() => {
   useStylesScoped$(writeStyle())
   return (
-    <section class="fluid-section" aria-label="contact form">
+    <section id="contact-form" class="fluid-section" aria-label="contact form">
       <h2>Tell Us Your Story</h2>
       {/* <p>Design is about life and the way you experience them.</p> */}
       <form action="" preventdefault:submit>
@@ -87,7 +87,7 @@ function writeStyle() {
     }
 
     input {
-      width: 2em;
+      width: 3em;
       flex-grow: 1;
       border: none;
       outline: none;

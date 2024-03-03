@@ -1,9 +1,9 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik"
-import { Link } from '@builder.io/qwik-city';
+import { component$, useStylesScoped$ } from '@builder.io/qwik'
+import { Link } from '@builder.io/qwik-city'
 
-const navitems = ['About', 'Services', 'Portfolio', 'Testimonials', 'Contact']
-
-export default component$(() => {
+export default component$(({ navItems }:{
+  navItems: string[]
+}) => {
   useStylesScoped$(`
     nav {
       --btn-bg: black;
@@ -42,9 +42,9 @@ export default component$(() => {
   return (
     <nav class="navigation">
       <ul>
-        {navitems.map((item) => (
+        {navItems.map((item) => (
           <li key={item}>
-            <Link href={`/${item.toLowerCase()}`} prefetch>{item}</Link>
+            <Link href={`/interior-design/${item.toLowerCase()}`} prefetch>{item}</Link>
           </li>
         ))}
         <li>

@@ -1,10 +1,12 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik"
+import { type Signal, $, component$, useStylesScoped$, useOn } from "@builder.io/qwik"
 
-export default component$(() => {
+export default component$(({ isMenuActive }: {
+  isMenuActive: Signal<boolean>
+}) => {
   useStylesScoped$(`
     .hamburger {
-      --width: 3em;
-      --color: gray;
+      --width: 2.5em;
+      --color: black;
       position: relative;
       width: var(--width);
       aspect-ratio: 3/2;
@@ -19,7 +21,8 @@ export default component$(() => {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      translate: -50% -50%;
+      transition: all 0.5s ease;
     }
 
     .hamburger__bar:first-child {
@@ -35,10 +38,24 @@ export default component$(() => {
         display: none;
       }
     }
+
+    .active .hamburger__bar {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+
+    .active .hamburger__bar:last-child {
+      top: 50%;
+      transform: rotate(-45deg);
+    }
   `)
 
+  useOn('click', $(() => {
+    isMenuActive.value = !isMenuActive.value
+  }))
+
   return (
-    <div class="hamburger">
+    <div class={{ hamburger: true, active: isMenuActive.value }}>
       <div class="hamburger__bar"/>
       <div class="hamburger__bar"/>
       <div class="hamburger__bar"/>

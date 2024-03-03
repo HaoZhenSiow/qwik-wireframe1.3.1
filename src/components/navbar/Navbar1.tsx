@@ -1,26 +1,31 @@
-import { component$, useStylesScoped$ } from '@builder.io/qwik'
+import { component$, useStylesScoped$, useSignal } from '@builder.io/qwik'
 import { Link } from '@builder.io/qwik-city'
 import useWindowScroll from '~/hooks/useWindowScroll'
 
 import Nav1 from './nav/Nav1'
 import Hamburger1 from './hamburger/Hamburger1'
+import Menu1 from '../menu/menu1/Menu1'
 
+const navItems = ['About', 'Services', 'Portfolio', 'Testimonials', 'Contact']
 
 export default component$(() => {
   useStylesScoped$(createStyle())
   
-  const scroll = useWindowScroll()
-
+  const scrollInfo = useWindowScroll()
+  const isMenuActive = useSignal<boolean>(false)
   return (
-    <div class={["navbar", scroll.value > 0 && "scrolled"]}>
-      <div class="fluid-container">
-        <Link href="/" prefetch>
-          <p class="navbar__logo">LOGO</p>
-        </Link>
-        <Nav1 />
-        <Hamburger1 />
+    <>
+      <div class={["navbar", scrollInfo.scrolled && "scrolled", scrollInfo.direction]}>
+        <div class="fluid-container">
+          <Link href="/" prefetch onClick$={() => isMenuActive.value = false}>
+            <p class="navbar__logo">LOGO</p>
+          </Link>
+          <Nav1 navItems={navItems} />
+          <Hamburger1 isMenuActive={isMenuActive} />
+        </div>
       </div>
-    </div>
+      <Menu1 navItems={navItems} isMenuActive={isMenuActive} />
+    </>
   )
 })
 
@@ -34,11 +39,11 @@ function createStyle() {
       background-color: var(--navbar-bg);
       padding-block: 1.5em;
       position: fixed;
-      top: 0;
+      top: 5px;
       left: 0;
       width: 100%;
-      z-index: 50;
-      transition: padding .5s ease-in-out;
+      z-index: 100;
+      transition: padding .5s ease-in-out, transform .5s ease-in-out;
     }
 
     .fluid-container {
@@ -57,10 +62,18 @@ function createStyle() {
     .navbar.scrolled {
       background-color: var(--navbar-bg-scrolled);
       padding-block: .4em;
+
+      &:has(.hamburger.active) {
+        background-color: var(--navbar-bg);
+      }
     }
 
     .navbar.scrolled .navbar__logo {
       font-size: var(--logo-fs-scrolled);
+    }
+
+    .navbar.scrolled-down {
+      transform: translateY(-101%);
     }
   `
 }
