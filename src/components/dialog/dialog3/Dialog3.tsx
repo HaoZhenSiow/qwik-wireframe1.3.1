@@ -54,7 +54,6 @@ export default component$(({ dialogRef }: {
   }))
 
   useOn('show', $(() => {
-    dialogElement.scrollBy(0, 1000)
     dialogElement.scrollTop = 0
   }))
 
