@@ -18,12 +18,9 @@ export default component$(() => {
     }
   `)
 
-  const dialogRef = useSignal<HTMLDialogElement>()
-  const dialogEl = dialogRef.value as HTMLDialogElement
+  const isDialogShown = useSignal<boolean>(false)
   const showDialog = $(() => {
-    const event = new Event('show')
-    dialogEl.dispatchEvent(event)
-    dialogEl.showModal()
+    isDialogShown.value = true
   })
 
   return (
@@ -38,7 +35,7 @@ export default component$(() => {
         <InteriorDesign onClick={showDialog}/>
       </DisplayBy3>
       <Button1 href="/interior-design/portfolio">All Projects</Button1>
-      <Dialog3 dialogRef={dialogRef} />
+      <Dialog3 isDialogShown={isDialogShown} />
     </section>
   )
 })

@@ -1,8 +1,8 @@
-import { type Signal, type QRL, $, component$, useStylesScoped$, useOnDocument, useOn } from '@builder.io/qwik'
+import { type Signal, $, component$, useStylesScoped$, useOn, useSignal } from '@builder.io/qwik'
 import Header3 from '~/components/header/header3/Header3';
 
-export default component$(({ dialogRef }: {
-  dialogRef: Signal<HTMLDialogElement | undefined>,
+export default component$(({ isDialogShown }: {
+  isDialogShown: Signal<boolean>
 }) => {
   useStylesScoped$(`
     dialog {
@@ -36,30 +36,31 @@ export default component$(({ dialogRef }: {
     }
   `)
 
+  const dialogRef = useSignal<HTMLDialogElement>()
   const dialogElement = dialogRef.value as HTMLDialogElement
-
-  const closeDialog = $(() => {
-    dialogElement.close()
+  const closeModal = $(() => {
+    dialogElement.scrollTop = 0
+    isDialogShown.value = false
   })
 
-  useOnDocument('click', $(e => {
+  useOn('click', $(e => {
     const clickX = e.clientX,
           clickY = e.clientY
 
     const { left, top, right, bottom }: DOMRect = dialogElement.getBoundingClientRect()
 
     if (clickX < left || clickX > right || clickY < top || clickY > bottom) {
-      dialogElement.close()
+      closeModal()
     }
   }))
 
-  useOn('show', $(() => {
-    dialogElement.scrollTop = 0
-  }))
+  isDialogShown.value ? dialogElement?.showModal() : dialogElement?.close()
 
   return (
     <dialog ref={dialogRef}>
-      <Cross closeDialog={closeDialog}/>
+      <svg onClick$={closeModal} stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+        <path d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208 208-93.31 208-208S370.69 48 256 48zm75.31 260.69a16 16 0 1 1-22.62 22.62L256 278.63l-52.69 52.68a16 16 0 0 1-22.62-22.62L233.37 256l-52.68-52.69a16 16 0 0 1 22.62-22.62L256 233.37l52.69-52.68a16 16 0 0 1 22.62 22.62L278.63 256z" />
+      </svg>
       <Header3 />
       <div class="fluid-section">
         <div class="visual"></div>
@@ -80,21 +81,3 @@ export default component$(({ dialogRef }: {
     </dialog>
   )
 })
-
-function Cross({ closeDialog }: {
-  closeDialog: QRL<() => void>
-}) {
-  return (
-    <svg
-      onClick$={closeDialog} 
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 512 512"
-      height="1em"
-      width="1em"
-      xmlns="http://www.w3.org/2000/svg">
-      <path d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208 208-93.31 208-208S370.69 48 256 48zm75.31 260.69a16 16 0 1 1-22.62 22.62L256 278.63l-52.69 52.68a16 16 0 0 1-22.62-22.62L233.37 256l-52.68-52.69a16 16 0 0 1 22.62-22.62L256 233.37l52.69-52.68a16 16 0 0 1 22.62 22.62L278.63 256z" />
-    </svg>
-  )
-}
